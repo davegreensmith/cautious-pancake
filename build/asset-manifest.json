@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.659aa1c8.css",
+    "main.js": "/static/js/main.c8eca0af.js",
+    "static/media/fam-ski.jpg": "/static/media/fam-ski.b2ebc37eced39f9440d9.jpg",
+    "static/media/bw_portrait.jpg": "/static/media/bw_portrait.ed59632fe9076ede195d.jpg",
+    "static/media/logo.png": "/static/media/logo.3d1eb7b21ce68d4b03d0.png",
+    "index.html": "/index.html",
+    "main.659aa1c8.css.map": "/static/css/main.659aa1c8.css.map",
+    "main.c8eca0af.js.map": "/static/js/main.c8eca0af.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.659aa1c8.css",
+    "static/js/main.c8eca0af.js"
+  ]
+}

@@ -28,9 +28,7 @@ export default function BlogParagraph() {
       <br />
       <p>I have also represented my previous golf club in team competitions, notably the Manchester and District Golf Alliance “Archie Preston” which we won in 2012. </p>
       <br />
-      <p>
-        I am also an accomplished skier/snowboarder, having enjoyed skiing, and later snowboarding from an early age. I continue to travel regularly with and encourage my young family along the way.{' '}
-      </p>
+      <p>I am an accomplished skier/snowboarder, having enjoyed skiing, and later snowboarding from an early age. I continue to travel regularly with and encourage my young family along the way. </p>
       <br />
       <p>To unwind, I enjoy weekly angling trips at a local club I am part of. This allows some time away for some mental relaxation.</p>
     </div>

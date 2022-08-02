@@ -5,6 +5,7 @@
 .skillsCard {
   padding: 0.5rem;
   margin: 1rem;
+  border-radius: 0.25rem;
   box-shadow: 0.5rem 0.75rem 1rem #57cc99;
 }
 
