@@ -1,7 +1,7 @@
-export default function SkillsCard() {
+export default function SkillsCard({ skill: { skill, badge_url }, styles }) {
   return (
-    <section>
-      <h2>SkillsCard</h2>
+    <section className={styles.skillsCard}>
+      <h3>{skill}</h3>
     </section>
   );
 }

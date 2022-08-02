@@ -13,12 +13,14 @@ function App() {
       <div className="App">
         <Header />
         <NavBar />
-        <Routes>
-          <Route path="/" element={<BlogHolder />}></Route>
-          <Route path="/skills" element={<SkillsHolder />}></Route>
-          <Route path="/portfolio" element={<PortfolioHolder />}></Route>
-          <Route path="/links" element={<LinksHolder />}></Route>
-        </Routes>
+        <div className="portal">
+          <Routes>
+            <Route path="/" element={<BlogHolder />}></Route>
+            <Route path="/skills" element={<SkillsHolder />}></Route>
+            <Route path="/portfolio" element={<PortfolioHolder />}></Route>
+            <Route path="/links" element={<LinksHolder />}></Route>
+          </Routes>
+        </div>
       </div>
     </BrowserRouter>
   );
