@@ -1,7 +1,11 @@
-export default function PortfolioCard() {
+export default function PortfolioCard({ project: { name, link_url, description }, styles }) {
   return (
-    <section>
-      <h2>PortfolioCard</h2>
-    </section>
+    <article className={styles.portfolioCard}>
+      <h3>{name}</h3>
+      <a href={link_url} target="_blank">
+        Hosted project
+      </a>
+      <p>{description}</p>
+    </article>
   );
 }
