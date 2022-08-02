@@ -1,0 +1,14 @@
+.portrait {
+  max-width: 50%;
+  border-radius: 1rem;
+  padding: 0.5rem;
+}
+
+.section {
+  padding: 1rem;
+}
+
+.famSki {
+  padding: 0.5rem;
+  max-width: 80%;
+}

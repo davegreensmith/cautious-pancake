@@ -5,7 +5,12 @@
 .section {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
   align-items: center;
   background-color: #57cc99;
   color: #143246;
+}
+
+.h1 {
+  font-size: 1.75rem;
 }
