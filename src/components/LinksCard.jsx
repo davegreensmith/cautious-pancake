@@ -1,7 +1,9 @@
-export default function LinksCard() {
+export default function LinksCard({ link: { name, link_url }, styles }) {
   return (
-    <section>
-      <h2>LinksCard</h2>
-    </section>
+    <article className={styles.linksCard}>
+      <a href={link_url} target="_blank">
+        {name}
+      </a>
+    </article>
   );
 }

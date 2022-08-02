@@ -2,7 +2,7 @@
   padding: 1rem;
 }
 
-.portfolioCard {
+.linksCard {
   padding: 0.5rem;
   margin: 1rem;
   box-shadow: 0.5rem 0.75rem 1rem #57cc99;
@@ -28,7 +28,7 @@
     width: 100%;
   }
 
-  .portfolioCard {
-    width: 20rem;
+  .linksCard {
+    width: 15rem;
   }
 }
