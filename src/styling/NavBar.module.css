@@ -1,0 +1,11 @@
+.nav {
+  padding: 0.5rem;
+}
+
+.navLink {
+  padding: 0.5rem;
+}
+
+.navLink:visited {
+  color: #22577a;
+}
