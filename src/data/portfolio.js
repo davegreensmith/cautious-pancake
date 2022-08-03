@@ -15,5 +15,10 @@ export const portfolio = [
     description: "This project is an exercise in creating a front end React app. It makes use of the available api's from the back end project of the same name (Back-End Northcoders Games project)",
   },
   { portfolio_id: 3, name: 'NC Final Project', description: 'due for completion 19/08/2022' },
-  { portfolio_id: 4, name: 'Personal website (this one)', github: 'https://github.com/davegreensmith/cautious-pancake', description: 'A single page application created with React' },
+  {
+    portfolio_id: 4,
+    name: 'Personal website (this one)',
+    github: 'https://github.com/davegreensmith/cautious-pancake',
+    description: 'A single page application created with React, styled with CSS Modules',
+  },
 ];

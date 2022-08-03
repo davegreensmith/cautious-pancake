@@ -1,4 +1,6 @@
-export default function BlogParagraph() {
+import famSki from '../images/fam-ski.jpg';
+
+export default function BlogParagraph({ styles }) {
   return (
     <div>
       <h3>Hi, I'm Dave Greensmith</h3>
@@ -23,12 +25,16 @@ export default function BlogParagraph() {
       <h4>Hobbies and Interests</h4>
       <br />
       <p>
-        As a keen golfer, I play in my clubs competitions to a high standard. I have played for over 20 years, and have won many competitions with the most prestigious being “Captains Day” in 2019.{' '}
+        As a keen golfer, I play in my clubs competitions to a high standard. I have played for over 20 years, and have won many competitions with the most prestigious being “Captains Day” in 2019.
       </p>
       <br />
       <p>I have also represented my previous golf club in team competitions, notably the Manchester and District Golf Alliance “Archie Preston” which we won in 2012. </p>
       <br />
-      <p>I am an accomplished skier/snowboarder, having enjoyed skiing, and later snowboarding from an early age. I continue to travel regularly with and encourage my young family along the way. </p>
+      <p>
+        I am an accomplished skier & snowboarder, having enjoyed skiing from an early age, and later snowboarding . I continue to travel regularly with my young family and encourage along the way.
+      </p>
+
+      <img src={famSki} alt="skiing in the Alps" className={styles.famSki} />
       <br />
       <p>To unwind, I enjoy weekly angling trips at a local club I am part of. This allows some time away for some mental relaxation.</p>
     </div>

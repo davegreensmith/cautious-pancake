@@ -27,4 +27,8 @@
   .portrait {
     max-width: 150px;
   }
+
+  .famSki {
+    max-width: 50%;
+  }
 }
