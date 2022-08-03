@@ -3,10 +3,32 @@
 }
 
 .portfolioCard {
+  display: flex;
+  flex-direction: column;
   padding: 0.5rem;
   margin: 1rem;
   border-radius: 0.25rem;
   box-shadow: 0.5rem 0.75rem 1rem #57cc99;
+}
+
+.linkHolder {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.aTags {
+  padding: 0.25rem;
+  margin: 0.25rem;
+  width: 10rem;
+  background-color: #38a3a5;
+  color: #c7f9cc;
+}
+
+p {
+  padding: 0.5rem;
 }
 
 @media (min-width: 600px) {
