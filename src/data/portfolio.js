@@ -1,24 +1,32 @@
 export const portfolio = [
   {
     portfolio_id: 1,
-    name: 'NC-games Backend Project',
-    link_url: 'https://nc-games-dg.herokuapp.com/api/',
-    github: 'https://github.com/davegreensmith/be-nc-games-project',
+    name: "NC-games Backend Project",
+    link_url: "https://nc-games-dg.herokuapp.com/api/",
+    github: "https://github.com/davegreensmith/be-nc-games-project",
     description:
-      'This project is an exercise in the construction of a database (set by Northcoders), and building endpoint requests to interact with the database with GET, PATCH, POST and DELETE methods:',
+      "This project is an exercise in the construction of a database (set by Northcoders), and building endpoint requests to interact with the database with GET, PATCH, POST and DELETE methods:",
   },
   {
     portfolio_id: 2,
-    name: 'NC-games Frontend Project',
-    link_url: 'https://davegreensmith.netlify.app/',
-    github: 'https://github.com/davegreensmith/nc-games-front-end-project',
-    description: "This project is an exercise in creating a front end React app. It makes use of the available api's from the back end project of the same name (Back-End Northcoders Games project)",
+    name: "NC-games Frontend Project",
+    link_url: "https://davegreensmith.netlify.app/",
+    github: "https://github.com/davegreensmith/nc-games-front-end-project",
+    description:
+      "This project is an exercise in creating a front end React app. It makes use of the available api's from the back end project of the same name (Back-End Northcoders Games project)",
   },
-  { portfolio_id: 3, name: 'NC Final Project', description: 'due for completion 19/08/2022' },
+  {
+    portfolio_id: 3,
+    name: "Northcoders Final Phase Project",
+    github: "https://github.com/davegreensmith/northcoders-final-project.git",
+    description:
+      'For the final project, we created a React Native App for iOS and Android.  The app connects people together by a user requesting help for small/medium errands, which another user can volunteer their free time.  The ethos of the application is to bring communities closer together and encourage the "community spirit".  This is achieved by the volunteer "Chipping in", thus the name of the app: ChipIn.  The team name for the project was "Potential Enigma".  The purpose of the final phase project is to find our own tech, which would suit the chosen project, and research, spike and then code.  The new tech chosen for the project was React Native front end, Firebase back end and integrating React Native maps',
+  },
   {
     portfolio_id: 4,
-    name: 'Personal website (this one)',
-    github: 'https://github.com/davegreensmith/cautious-pancake',
-    description: 'A single page application created with React, styled with CSS Modules',
+    name: "Personal website (this one)",
+    github: "https://github.com/davegreensmith/cautious-pancake",
+    description:
+      "A single page application created with React, styled with CSS Modules",
   },
 ];
