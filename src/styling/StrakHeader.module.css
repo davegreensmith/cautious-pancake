@@ -1,0 +1,17 @@
+.header {
+  font-size: x-large;
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+
+.section img {
+  width: 6rem;
+}
+
+.section {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
