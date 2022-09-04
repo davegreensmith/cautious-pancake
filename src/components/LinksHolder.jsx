@@ -1,9 +1,8 @@
-import { links } from '../data/links.js';
-import LinksCard from './LinksCard.jsx';
-import styles from '../styling/LinksHolder.module.css';
+import { links } from "../data/links.js";
+import LinksCard from "./LinksCard.jsx";
+import styles from "../styling/LinksHolder.module.css";
 
 export default function LinksHolder() {
-  console.log(links);
   return (
     <section className={styles.section}>
       <h2>Links...</h2>

@@ -4,19 +4,22 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
-  position: sticky;
+  /* position: sticky;
   top: 5rem;
-  z-index: 999;
-  background-color: #c7f9cc;
+  z-index: 999; */
+  background-color: #e1eff6;
+  border-radius: 0.25rem;
+  width: 90%;
 }
 
 .navLink {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   padding: 0.5rem;
   width: 4rem;
-  height: 1.1rem;
+  height: 2rem;
   border-radius: 0.25rem;
 }
 
@@ -30,7 +33,7 @@
   transition: 0.25s;
 }
 
-@media (min-width: 600px) {
+/* @media (min-width: 600px) {
   .App {
     display: grid;
     grid-template-areas:
@@ -49,6 +52,6 @@
     position: sticky;
     top: 5rem;
     z-index: 999;
-    height: 11rem;
+    height: 10rem;
   }
-}
+} */

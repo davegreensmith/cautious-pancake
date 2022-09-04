@@ -1,0 +1,17 @@
+.playersContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.article {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.25rem;
+}
+
+.fieldset {
+  margin: 1rem;
+  padding: 1rem;
+}
