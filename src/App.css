@@ -36,10 +36,25 @@
   border: 1px solid;
   margin: 1rem;
 }
+
+.strak-subheader {
+  margin: 0.5rem;
+}
 .portal {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.strak-button {
+  margin: 0.25rem 1rem;
+  background-color: #c7f9cc;
+  padding: 0.25rem;
+}
+
+.strak-button:hover {
+  font-weight: bold;
+  background-color: #f2fff4;
 }
 
 @media (min-width: 600px) {

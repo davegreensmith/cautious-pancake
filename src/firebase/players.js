@@ -9,7 +9,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 
-const db = getFirestore();
+export const db = getFirestore();
 
 const playersRef = collection(db, "players");
 

@@ -1,0 +1,21 @@
+.leaderCard {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #e1eff6;
+  padding: 0.25rem;
+  margin: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.leaderCardPos {
+  width: 3rem;
+}
+
+.leaderCardPlyr {
+  width: 5rem;
+}
+
+.leaderCardLBPts {
+  width: 3rem;
+}

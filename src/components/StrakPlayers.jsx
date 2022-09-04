@@ -1,17 +1,15 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import StrakHeader from "./StrakHeader";
 import StrakNav from "./StrakNav";
-import {
-  addPlayerToList,
-  deletePlayerByDocID,
-  fetchPlayers,
-} from "../firebase/players";
+import { addPlayerToList, deletePlayerByDocID } from "../firebase/players";
 import { findNewPlayerID } from "../utils.js/functions";
 
+import styles from "../styling/StrakPlayers.module.css";
+import useGetPlayers from "../hooks/useGetPlayers";
+import { createLeaderBoardEntryByPlayerName } from "../firebase/leaderBoard";
+
 export default function StrakPlayers() {
-  const [playerList, setPlayerList] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { playerList, setPlayerList, isLoading } = useGetPlayers();
   const [newName, setNewName] = useState("");
 
   function handleRemovePlayer(id) {
@@ -24,6 +22,8 @@ export default function StrakPlayers() {
     const newID = findNewPlayerID(playerList);
     const addNameBody = { playerID: newID, playerName: newName };
     addPlayerToList(addNameBody);
+    const addLeaderBoardBody = { ...addNameBody, totalPoints: 0 };
+    createLeaderBoardEntryByPlayerName(addLeaderBoardBody);
 
     const updatePlayerList = [...playerList];
     updatePlayerList.push(addNameBody);
@@ -32,13 +32,6 @@ export default function StrakPlayers() {
     setNewName("");
   }
 
-  useEffect(() => {
-    fetchPlayers().then((playersList) => {
-      setPlayerList(playersList);
-      setIsLoading(false);
-    });
-  }, []);
-
   return (
     <section className="strak-app-container">
       <StrakHeader />
@@ -46,26 +39,27 @@ export default function StrakPlayers() {
       {isLoading ? (
         <p>loading players list...</p>
       ) : (
-        <div>
-          <h3>Players List</h3>
+        <div className={styles.playersContainer}>
+          <h3 className="strak-subheader">Players List</h3>
           {playerList.map((player) => {
             return (
-              <article key={player.playerID}>
+              <article className={styles.article} key={player.playerID}>
                 {player.playerName}
                 <button
+                  className="strak-button"
                   onClick={() => {
                     handleRemovePlayer(player.id);
                   }}
                 >
-                  remove
+                  Remove
                 </button>
               </article>
             );
           })}
         </div>
       )}
-      <form onSubmit={handleAddPlayer}>
-        <fieldset>
+      <form onSubmit={handleAddPlayer} className={styles.form}>
+        <fieldset className={styles.fieldset}>
           <label htmlFor="newName">Name: </label>
           <input
             id="newName"
@@ -76,7 +70,7 @@ export default function StrakPlayers() {
               setNewName(e.target.value);
             }}
           />
-          <button>submit</button>
+          <button className="strak-button">Submit</button>
           <legend>Add a player to the list</legend>
         </fieldset>
       </form>

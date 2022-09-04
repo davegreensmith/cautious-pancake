@@ -9,3 +9,22 @@ export const findNewPlayerID = (playerList) => {
 
   return highestId + 1;
 };
+
+export const addPositionText = (pos) => {
+  let position = pos.toString();
+  if (position.endsWith(1) && pos !== 11) {
+    return position + "st";
+  }
+  if (position.endsWith(2) && pos !== 12) {
+    return position + "nd";
+  }
+  if (position.endsWith(3) && pos !== 13) {
+    return position + "rd";
+  }
+  return position + "th";
+};
+
+export const sortArrayByObjectElement = (array, key) => {
+  const sortedArray = array.sort(({ [key]: a }, { [key]: b }) => b - a);
+  return sortedArray;
+};
