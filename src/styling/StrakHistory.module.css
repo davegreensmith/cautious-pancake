@@ -1,0 +1,68 @@
+.historyResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.historyCard {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #e1eff6;
+  padding: 0.15rem;
+  margin: 0.15rem;
+  border-radius: 0.25rem;
+  width: 90%;
+}
+.historyHeading {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  background-color: #e1eff6;
+  padding: 0.15rem;
+  margin: 0.15rem;
+  border-radius: 0.25rem;
+  width: 90%;
+  height: 10rem;
+}
+
+.playerName {
+  width: 5rem;
+}
+.roundScore {
+  width: 2rem;
+}
+.totalPoints {
+  width: 3rem;
+}
+
+.headingPlayerLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  height: 1rem;
+  width: 5rem;
+  transform: rotate(-90deg);
+}
+
+.headingRoundScoreLabel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  height: 2rem;
+  width: 2rem;
+  transform: rotate(-90deg);
+}
+
+.headingTotalStabsLabel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  height: 3rem;
+  width: 3rem;
+  transform: rotate(-90deg);
+}

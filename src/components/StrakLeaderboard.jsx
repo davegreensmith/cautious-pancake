@@ -37,7 +37,6 @@ export default function StrakLeaders() {
             <p className={styles.leaderCardLBPts}>LB pts</p>
           </div>
           {sortedLeadersArray.map((player) => {
-            console.log(player, "<<< player");
             position++;
             return (
               <div className={styles.leaderCard} key={player.id}>

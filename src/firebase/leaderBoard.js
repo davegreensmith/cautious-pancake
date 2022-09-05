@@ -26,22 +26,28 @@ export function fetchLeaders() {
 }
 
 export function updateLeaderBoardWithPointsByPlayerName(points, playerName) {
-  return fetchLeaders().then((leadersList) => {
-    leadersList.forEach((leaderPlayer) => {
-      if (leaderPlayer.playerName === playerName) {
-        leaderPlayer.totalPoints += points;
-        const newBody = {
-          totalPoints: leaderPlayer.totalPoints,
-          playerName: leaderPlayer.playerName,
-          playerID: leaderPlayer.playerID,
-        };
-        const leaderRef = doc(db, "leaderBoard", leaderPlayer.id);
-        return setDoc(leaderRef, newBody);
-      }
+  return fetchLeaders()
+    .then((leadersList) => {
+      leadersList.forEach((leaderPlayer) => {
+        if (leaderPlayer.playerName === playerName) {
+          leaderPlayer.totalPoints += points;
+          const newBody = {
+            totalPoints: leaderPlayer.totalPoints,
+            playerName: leaderPlayer.playerName,
+            playerID: leaderPlayer.playerID,
+          };
+          const leaderRef = doc(db, "leaderBoard", leaderPlayer.id);
+          return setDoc(leaderRef, newBody);
+        }
+      });
+    })
+    .catch((err) => {
+      console.log(err, "<<< Error");
     });
-  });
 }
 
 export function createLeaderBoardEntryByPlayerName(body) {
-  return addDoc(leadersRef, body);
+  return addDoc(leadersRef, body).catch((err) => {
+    console.log(err, "<<< Error");
+  });
 }
