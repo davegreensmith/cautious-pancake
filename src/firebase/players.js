@@ -26,9 +26,15 @@ export function fetchPlayers() {
 }
 
 export function deletePlayerByDocID(docID) {
-  deleteDoc(doc(db, "players", docID));
+  deleteDoc(doc(db, "players", docID)).catch((err) => {
+    console.log(err, "<<< Error");
+  });
 }
 
 export function addPlayerToList(body) {
-  addDoc(collection(db, "players"), body).then((data) => {});
+  addDoc(collection(db, "players"), body)
+    .then((data) => {})
+    .catch((err) => {
+      console.log(err, "<<< Error");
+    });
 }

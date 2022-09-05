@@ -7,17 +7,12 @@ import { useEffect } from "react";
 import { addPositionText } from "../utils.js/functions";
 
 import styles from "../styling/StrakScores.module.css";
-import { insertScores } from "../firebase/scores";
+import { findNextRoundRef, insertScores } from "../firebase/scores";
 import { updateLeaderBoardWithPointsByPlayerName } from "../firebase/leaderBoard";
 
 export default function StrakPlayers() {
-  const [roundNo, setRoundNo] = useState(false);
+  const [roundRef, setRoundRef] = useState(false);
   const [error, setError] = useState(false);
-
-  const [player1Name, setPlayer1Name] = useState({
-    name: "-select",
-    score: "",
-  });
 
   let position = 0;
   const {
@@ -32,11 +27,17 @@ export default function StrakPlayers() {
   const handleScoreInput = (e) => {
     e.preventDefault();
     for (let i = 1; i < numberOfPlayers * 2; i = i + 2) {
-      if (e.target[i].value === "-select-" || e.target[i + 1].value === "") {
+      if (
+        e.target[i].value === "-select-" ||
+        e.target[i + 1].value === "" ||
+        e.target[0].value === ""
+      ) {
         setError({ msg: "Missing information, please check and try again" });
       }
     }
+
     if (error) {
+      console.log("ERROR!");
     } else {
       console.log(e, "<<< e");
       const scoresBody = [];
@@ -62,17 +63,26 @@ export default function StrakPlayers() {
       }
       const bodyKey = e.target[0].value;
       const addScoreBody = { [bodyKey]: scoresBody };
-      insertScores(addScoreBody);
+      console.log(addScoreBody, "<<< body in StrakScores");
+      insertScores(addScoreBody).catch((err) => {
+        console.log(err, "<<< error from InsertScores");
+      });
       updateLeadersArray.forEach((player) => {
         updateLeaderBoardWithPointsByPlayerName(
           player.totalPoints,
           player.playerName
-        );
+        ).catch((err) => {
+          console.log(err);
+        });
       });
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    findNextRoundRef().then((nextRoundDeets) => {
+      setRoundRef(nextRoundDeets);
+    });
+  }, []);
 
   return (
     <section className="strak-app-container">
@@ -86,7 +96,13 @@ export default function StrakPlayers() {
           <form onSubmit={handleScoreInput} className={styles.form}>
             <div className={styles.roundInfo}>
               <label htmlFor="roundInfo">Round reference </label>
-              <input type="text" id="roundInfo"></input>
+              <input
+                type="text"
+                id="roundInfo"
+                value={roundRef}
+                readOnly
+                className={styles.roundRef}
+              ></input>
             </div>
             {playerList.map((player) => {
               position++;
@@ -99,12 +115,18 @@ export default function StrakPlayers() {
                     name="player"
                     id="player"
                     className={styles.selecterBox}
-                    value={player1Name}
-                    onChange={(e) => setPlayer1Name(e.target.value)}
+                    // value={player1Name}
+                    // onChange={(e) => setPlayer1Name(e.target.value)}
                   >
                     {playerNameArray.map((player, index) => {
                       return (
-                        <option value={player} key={index}>
+                        <option
+                          value={player}
+                          key={index}
+                          onChange={(e) => {
+                            console.log(e);
+                          }}
+                        >
                           {player}
                         </option>
                       );
