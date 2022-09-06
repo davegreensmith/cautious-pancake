@@ -6,6 +6,7 @@ import StrakHeader from "./StrakHeader";
 import StrakNav from "./StrakNav";
 
 import styles from "../styling/StrakHistory.module.css";
+import StrakLoadingSpinner from "./StrakLoadingSpinner";
 
 export default function StrakHistory() {
   const [scores, setScores] = useState();
@@ -25,7 +26,10 @@ export default function StrakHistory() {
       <StrakHeader />
       <StrakNav />
       {isLoading ? (
-        <p>Loading history...</p>
+        <div>
+          <p>Loading history...</p>
+          <StrakLoadingSpinner />
+        </div>
       ) : (
         <div className={styles.historyResults}>
           <h3 className="strak-subheader">History</h3>

@@ -7,6 +7,7 @@ import { findNewPlayerID } from "../utils.js/functions";
 import styles from "../styling/StrakPlayers.module.css";
 import useGetPlayers from "../hooks/useGetPlayers";
 import { createLeaderBoardEntryByPlayerName } from "../firebase/leaderBoard";
+import StrakLoadingSpinner from "./StrakLoadingSpinner";
 
 export default function StrakPlayers() {
   const { playerList, setPlayerList, isLoading } = useGetPlayers();
@@ -37,7 +38,10 @@ export default function StrakPlayers() {
       <StrakHeader />
       <StrakNav />
       {isLoading ? (
-        <p>loading players list...</p>
+        <div>
+          <p>loading players list...</p>
+          <StrakLoadingSpinner />
+        </div>
       ) : (
         <div>
           <h3 className="strak-subheader">Players List</h3>

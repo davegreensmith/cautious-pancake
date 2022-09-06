@@ -4,6 +4,7 @@ import { fetchLeaders } from "../firebase/leaderBoard";
 import { sortArrayByObjectElement } from "../utils.js/functions";
 import StrakHeader from "./StrakHeader";
 import StrakNav from "./StrakNav";
+import StrakLoadingSpinner from "./StrakLoadingSpinner";
 import { addPositionText } from "../utils.js/functions";
 import styles from "../styling/StrakLeader.module.css";
 import { fetchScores, fetchScoresByPlayerName } from "../firebase/scores";
@@ -59,7 +60,10 @@ export default function StrakLeaders() {
           })}
         </article>
       ) : (
-        <p>Loading leader board...</p>
+        <div>
+          <p>Loading leader board...</p>
+          <StrakLoadingSpinner />
+        </div>
       )}
     </section>
   );
