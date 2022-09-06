@@ -39,26 +39,28 @@ export default function StrakPlayers() {
       {isLoading ? (
         <p>loading players list...</p>
       ) : (
-        <div className={styles.playersContainer}>
+        <div>
           <h3 className="strak-subheader">Players List</h3>
-          {playerList.map((player) => {
-            return (
-              <article className={styles.article} key={player.playerID}>
-                {player.playerName}
-                <button
+          <div className={styles.playersContainer}>
+            {playerList.map((player) => {
+              return (
+                <article className={styles.article} key={player.playerID}>
+                  {player.playerName}
+                  {/* <button
                   className="strak-button"
                   onClick={() => {
                     handleRemovePlayer(player.id);
                   }}
-                >
+                  >
                   Remove
-                </button>
-              </article>
-            );
-          })}
+                </button> */}
+                </article>
+              );
+            })}
+          </div>
         </div>
       )}
-      <form onSubmit={handleAddPlayer} className={styles.form}>
+      {/* <form onSubmit={handleAddPlayer} className={styles.form}>
         <fieldset className={styles.fieldset}>
           <label htmlFor="newName">Name: </label>
           <input
@@ -73,7 +75,7 @@ export default function StrakPlayers() {
           <button className="strak-button">Submit</button>
           <legend>Add a player to the list</legend>
         </fieldset>
-      </form>
+      </form> */}
     </section>
   );
 }

@@ -17,10 +17,13 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  padding: 0.5rem;
-  width: 4rem;
+  padding: 0.25rem;
+  width: 3.5rem;
   height: 2rem;
+  margin: 0.1rem;
   border-radius: 0.25rem;
+  border: 1px solid #22577a;
+  font-size: 0.9rem;
 }
 
 .navLink:visited {
@@ -29,7 +32,7 @@
 .navLink:hover {
   background-color: #22577a;
   color: #c7f9cc;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   transition: 0.25s;
 }
 

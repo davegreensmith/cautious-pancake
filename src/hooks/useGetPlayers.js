@@ -17,9 +17,10 @@ const useGetPlayers = () => {
           players.push(player.playerName);
         });
         setPlayerNameArray(players);
+        return playersList;
       })
-      .then(() => {
-        const players = playerList.length;
+      .then((playersList) => {
+        const players = playersList.length;
         setNumberOfPlayers(players);
       });
   }, []);
