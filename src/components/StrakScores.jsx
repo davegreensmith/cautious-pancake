@@ -2,36 +2,31 @@ import { useState } from "react";
 import StrakHeader from "./StrakHeader";
 import StrakNav from "./StrakNav";
 
-import useGetPlayers from "../hooks/useGetPlayers";
 import { useEffect } from "react";
 import { addPositionText } from "../utils.js/functions";
 
 import styles from "../styling/StrakScores.module.css";
 import { findNextRoundRef, insertScores } from "../firebase/scores";
+import { fetchPlayers } from "../firebase/players";
+
 import { updateLeaderBoardWithPointsByPlayerName } from "../firebase/leaderBoard";
 
 export default function StrakPlayers() {
   const [roundRef, setRoundRef] = useState(false);
   const [error, setError] = useState(false);
+  const [playerList, setPlayerList] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [numberOfPlayers, setNumberOfPlayers] = useState(0);
+  const [playerNameArray, setPlayerNameArray] = useState([]);
 
   let position = 0;
-  const {
-    playerList,
-    setPlayerList,
-    isLoading,
-    setIsLoading,
-    numberOfPlayers,
-    playerNameArray,
-  } = useGetPlayers();
 
   const handleScoreInput = (e) => {
     e.preventDefault();
+    setError(false);
+
     for (let i = 1; i < numberOfPlayers * 2; i = i + 2) {
-      if (
-        e.target[i].value === "-select-" ||
-        e.target[i + 1].value === "" ||
-        e.target[0].value === ""
-      ) {
+      if (e.target[i].value === "-select-" || e.target[i + 1].value === "") {
         setError({ msg: "Missing information, please check and try again" });
       }
     }
@@ -39,11 +34,10 @@ export default function StrakPlayers() {
     if (error) {
       console.log("ERROR!");
     } else {
-      console.log(e, "<<< e");
       const scoresBody = [];
       const updateLeadersArray = [];
-      for (let i = 1; i < numberOfPlayers * 2; i = i + 2) {
-        console.log(e.target[i]);
+
+      for (let i = 1; i < numberOfPlayers * 2; i += 2) {
         const leaderBoardScore = numberOfPlayers + 1 - (i + 1) / 2;
         const scoresObj = {
           playerName: e.target[i].value,
@@ -55,25 +49,22 @@ export default function StrakPlayers() {
           playerName: e.target[i].value,
           totalPoints: leaderBoardScore,
         };
-        console.log(scoresObj, "<<< scores object");
-        console.log(leadersObj, "<<< leaders object");
 
         scoresBody.push(scoresObj);
         updateLeadersArray.push(leadersObj);
       }
+      if (scoresBody.length === 0) {
+        setError({ msg: "Something went wrong, please try again" });
+      }
+
       const bodyKey = e.target[0].value;
       const addScoreBody = { [bodyKey]: scoresBody };
-      console.log(addScoreBody, "<<< body in StrakScores");
-      insertScores(addScoreBody).catch((err) => {
-        console.log(err, "<<< error from InsertScores");
-      });
+      insertScores(addScoreBody);
       updateLeadersArray.forEach((player) => {
         updateLeaderBoardWithPointsByPlayerName(
           player.totalPoints,
           player.playerName
-        ).catch((err) => {
-          console.log(err);
-        });
+        );
       });
     }
   };
@@ -82,6 +73,19 @@ export default function StrakPlayers() {
     findNextRoundRef().then((nextRoundDeets) => {
       setRoundRef(nextRoundDeets);
     });
+    fetchPlayers()
+      .then((playersList) => {
+        setPlayerList(playersList);
+        const players = ["-select-"];
+        playersList.forEach((player) => {
+          players.push(player.playerName);
+        });
+        setPlayerNameArray(players);
+        const playerCount = playersList.length;
+        setNumberOfPlayers(playerCount);
+        setIsLoading(false);
+      })
+      .then(() => {});
   }, []);
 
   return (
@@ -120,13 +124,7 @@ export default function StrakPlayers() {
                   >
                     {playerNameArray.map((player, index) => {
                       return (
-                        <option
-                          value={player}
-                          key={index}
-                          onChange={(e) => {
-                            console.log(e);
-                          }}
-                        >
+                        <option value={player} key={index} onChange={(e) => {}}>
                           {player}
                         </option>
                       );

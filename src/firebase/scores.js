@@ -34,9 +34,7 @@ export function fetchScores() {
 
 export function insertScores(body) {
   console.log(body, "<<< body in insertScores");
-  addDoc(collection(db, "scores"), body).catch((err) => {
-    console.log(err, "<<< insertScores ERROR");
-  });
+  addDoc(collection(db, "scores"), body);
 }
 
 export function fetchScoresByPlayerName(playerName) {
