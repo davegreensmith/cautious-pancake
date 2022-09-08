@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "../styling/StrakHeader.module.css";
 import golfSpray from "../images/golf-spray.jpg";
 

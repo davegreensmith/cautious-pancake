@@ -1,6 +1,7 @@
-import styles from '../styling/BlogHolder.module.css';
-import portrait from '../images/bw_portrait.jpg';
-import BlogParagraph from './BlogParagraph';
+import React from "react";
+import styles from "../styling/BlogHolder.module.css";
+import portrait from "../images/bw_portrait.jpg";
+import BlogParagraph from "./BlogParagraph";
 
 export default function BlogHolder() {
   return (

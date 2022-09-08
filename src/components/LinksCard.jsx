@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function LinksCard({ link: { name, link_url }, styles }) {
   return (
     <article className={styles.linksCard}>

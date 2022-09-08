@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import StrakHeader from "./StrakHeader";
 import StrakNav from "./StrakNav";

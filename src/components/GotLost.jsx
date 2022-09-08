@@ -1,3 +1,4 @@
+import React from "react";
 import lostImage from "../images/got-lost.jpg";
 import styles from "../styling/NavBar.module.css";
 

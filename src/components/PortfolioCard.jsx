@@ -1,4 +1,9 @@
-export default function PortfolioCard({ project: { name, link_url, description, github }, styles }) {
+import React from "react";
+
+export default function PortfolioCard({
+  project: { name, link_url, description, github },
+  styles,
+}) {
   return (
     <article className={styles.portfolioCard}>
       <h3>{name}</h3>

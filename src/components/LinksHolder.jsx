@@ -1,3 +1,4 @@
+import React from "react";
 import { links } from "../data/links.js";
 import LinksCard from "./LinksCard.jsx";
 import styles from "../styling/LinksHolder.module.css";

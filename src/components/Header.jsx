@@ -1,5 +1,6 @@
-import logo from '../images/logo.png';
-import styles from '../styling/Header.module.css';
+import React from "react";
+import logo from "../images/logo.png";
+import styles from "../styling/Header.module.css";
 
 export default function Header() {
   return (

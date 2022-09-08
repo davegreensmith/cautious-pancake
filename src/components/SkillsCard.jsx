@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function SkillsCard({ skill: { skill, badge_url }, styles }) {
   return (
     <section className={styles.skillsCard}>
