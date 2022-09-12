@@ -29,4 +29,11 @@ export const portfolio = [
     description:
       "A single page application created with React, styled with CSS Modules",
   },
+  {
+    portfolio_id: 5,
+    name: "Golf score leaderboard app (golfTrack menu item)",
+    link_url: "http://greensmithonline.co.uk/strak/leaderboard",
+    description:
+      "Whilst preparing for a golf trip to Cyprus, discussion turned in the group as to how the eventual winner would be determined.  This app will take the placed positions after each round of golf, allocate a leaderboard score to the relevent player and display the leaderboard.  The back-end is handled through firebase",
+  },
 ];
