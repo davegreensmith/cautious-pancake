@@ -5,6 +5,7 @@ import {
   getFirestore,
   collection,
   getDocs,
+  getDoc,
   deleteDoc,
   doc,
   addDoc,
@@ -32,8 +33,22 @@ export function fetchScores() {
     .catch((err) => {});
 }
 
+export function fetchRoundResultsByRoundID(roundID) {
+  const scoreRef = doc(db, "scores", roundID);
+  return getDoc(scoreRef)
+    .then((snapshot) => {
+      const roundScores = { scores: snapshot.data(), roundID: snapshot.id };
+      return roundScores;
+    })
+    .catch((err) => {});
+}
+
 export function insertScores(body) {
   addDoc(collection(db, "scores"), body);
+}
+
+export function updateScoresByScoreID(scoreID, body) {
+  setDoc(doc(db, "scores", scoreID), body);
 }
 
 export function fetchScoresByPlayerName(playerName) {
@@ -48,7 +63,11 @@ export function fetchScoresByPlayerName(playerName) {
             const roundResult = round[key];
             for (let i = 0; i < roundResult.length; i++) {
               if (roundResult[i].playerName === playerName) {
-                roundScores.push({ roundRef, score: roundResult[i].score });
+                roundScores.push({
+                  roundRef,
+                  score: roundResult[i].score,
+                  roundID: round.id,
+                });
               }
             }
           }

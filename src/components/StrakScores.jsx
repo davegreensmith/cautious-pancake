@@ -135,7 +135,7 @@ export default function StrakPlayers() {
                 {playerList.map((player) => {
                   position++;
                   return (
-                    <article key={player.playerID} className={styles.scoreCard}>
+                    <article key={position} className={styles.scoreCard}>
                       <label className={styles.positionLabel}>
                         {addPositionText(position)}{" "}
                       </label>
@@ -143,14 +143,12 @@ export default function StrakPlayers() {
                         name="player"
                         id="player"
                         className={styles.selecterBox}
-                        // value={player1Name}
-                        // onChange={(e) => setPlayer1Name(e.target.value)}
                       >
                         {playerNameArray.map((player, index) => {
                           return (
                             <option
                               value={player}
-                              key={index}
+                              key={index * position + 100}
                               onChange={(e) => {}}
                             >
                               {player}
