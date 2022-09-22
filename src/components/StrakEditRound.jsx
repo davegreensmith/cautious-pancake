@@ -116,6 +116,7 @@ export default function StrakEditRound({ currentRound, setCurrentRound }) {
         }),
       ]).then(([promises]) => {
         newScores(formPlayerList);
+        navigate("/strak/leaderboard", { replace: true });
       });
     });
   };
@@ -129,6 +130,7 @@ export default function StrakEditRound({ currentRound, setCurrentRound }) {
       const existingRoundInDB = roundScores.scores[roundRef];
       return removeLeaderPoints(existingRoundInDB).then(([promises]) => {
         deleteScoresByRoundID(roundID);
+        navigate("/strak/leaderboard", { replace: true });
       });
     });
   };
