@@ -34,15 +34,31 @@ export default function StrakPlayers() {
   let position = 0;
 
   const handleNameChange = (position, newName) => {
+    setError(false);
     const newFormList = [...formPlayerList];
-    newFormList[position - 1].playerName = newName;
+    newFormList[position - 1]["playerName"] = newName;
+    console.log(newFormList, "<<< changing form list");
     setFormPlayerList(newFormList);
   };
 
   const handleScoreChange = (position, newScore) => {
+    setError(false);
     const newFormList = [...formPlayerList];
     newFormList[position - 1].score = +newScore;
     setFormPlayerList(newFormList);
+  };
+
+  const handleReset = (e) => {
+    const blankFormPlayerList = [];
+    for (let i = 0; i < numberOfPlayers; i++) {
+      const blankPlayerObject = {
+        position: i + 1,
+        playerName: "",
+        score: 0,
+      };
+      blankFormPlayerList.push(blankPlayerObject);
+    }
+    setFormPlayerList(blankFormPlayerList);
   };
 
   const handleSubmitScores = (e) => {
@@ -96,8 +112,8 @@ export default function StrakPlayers() {
         console.log(refresh, "<<< refresh");
         const toggle = !refresh;
         console.log(toggle, "<<< toggled");
+        navigate("/strak/leaderboard", { replace: true });
         setRefresh(toggle);
-        navigate("/strak/leaderboard");
       }
     }
 
@@ -118,6 +134,16 @@ export default function StrakPlayers() {
         });
         setPlayerNameArray(players);
         const playerCount = playersList.length;
+        const blankFormPlayerList = [];
+        for (let i = 0; i < playerCount; i++) {
+          const blankPlayerObject = {
+            position: i + 1,
+            playerName: "",
+            score: 0,
+          };
+          blankFormPlayerList.push(blankPlayerObject);
+        }
+        setFormPlayerList(blankFormPlayerList);
         setNumberOfPlayers(playerCount);
         setIsLoading(false);
       })
@@ -143,7 +169,11 @@ export default function StrakPlayers() {
             </div>
           ) : (
             <div>
-              <form onSubmit={handleSubmitScores} className={styles.form}>
+              <form
+                onSubmit={handleSubmitScores}
+                onReset={handleReset}
+                className={styles.form}
+              >
                 <div className={styles.roundInfo}>
                   <label htmlFor="roundInfo">Round reference </label>
                   <input
@@ -162,9 +192,13 @@ export default function StrakPlayers() {
                         {addPositionText(position)}{" "}
                       </label>
                       <select
-                        name="player"
+                        name={position}
                         id="player"
                         className={styles.selecterBox}
+                        // value={score.playerName}
+                        onChange={(e) => {
+                          handleNameChange(e.target.name, e.target.value);
+                        }}
                       >
                         {playerNameArray.map((player, index) => {
                           return (
@@ -181,6 +215,11 @@ export default function StrakPlayers() {
                       <input
                         type="number"
                         className={styles.stablefordInput}
+                        // defaultValue={score.score}
+                        name={position}
+                        onChange={(e) => {
+                          handleScoreChange(e.target.name, e.target.value);
+                        }}
                       ></input>
                     </article>
                   );
