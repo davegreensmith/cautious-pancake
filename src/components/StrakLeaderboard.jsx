@@ -9,8 +9,11 @@ import StrakLoadingSpinner from "./StrakLoadingSpinner";
 import { addPositionText } from "../utils.js/functions";
 import styles from "../styling/StrakLeader.module.css";
 import { fetchScores, fetchScoresByPlayerName } from "../firebase/scores";
+import { useContext } from "react";
+import { RefreshContext } from "../context/Refresh";
 
 export default function StrakLeaders() {
+  const { refresh, setRefresh } = useContext(RefreshContext);
   const [sortedLeadersArray, setSortedLeadersArray] = useState(false);
   const [noOfPlayers, setNoOfPlayers] = useState();
 
@@ -23,7 +26,7 @@ export default function StrakLeaders() {
       );
     });
     fetchScores().then((scoresList) => {});
-  }, []);
+  }, [refresh]);
 
   return (
     <section className="strak-app-container">
