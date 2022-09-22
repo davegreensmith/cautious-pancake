@@ -13,7 +13,12 @@ import { fetchPlayers } from "../firebase/players";
 import { updateLeaderBoardWithPointsByPlayerName } from "../firebase/leaderBoard";
 import { useNavigate } from "react-router-dom";
 
+import { useContext } from "react";
+import { RefreshContext } from "../context/Refresh";
+
 export default function StrakPlayers() {
+  const { refresh, setRefresh } = useContext(RefreshContext);
+
   const [roundRef, setRoundRef] = useState(false);
   const [error, setError] = useState(false);
   const [playerList, setPlayerList] = useState(false);
@@ -22,12 +27,25 @@ export default function StrakPlayers() {
   const [playerNameArray, setPlayerNameArray] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [formPlayerList, setFormPlayerList] = useState([]);
 
   const navigate = useNavigate();
 
   let position = 0;
 
-  const handleScoreInput = (e) => {
+  const handleNameChange = (position, newName) => {
+    const newFormList = [...formPlayerList];
+    newFormList[position - 1].playerName = newName;
+    setFormPlayerList(newFormList);
+  };
+
+  const handleScoreChange = (position, newScore) => {
+    const newFormList = [...formPlayerList];
+    newFormList[position - 1].score = +newScore;
+    setFormPlayerList(newFormList);
+  };
+
+  const handleSubmitScores = (e) => {
     setButtonDisabled(true);
     e.preventDefault();
     setIsSubmitting(true);
@@ -75,6 +93,10 @@ export default function StrakPlayers() {
             player.playerName
           );
         });
+        console.log(refresh, "<<< refresh");
+        const toggle = !refresh;
+        console.log(toggle, "<<< toggled");
+        setRefresh(toggle);
         navigate("/strak/leaderboard");
       }
     }
@@ -100,7 +122,7 @@ export default function StrakPlayers() {
         setIsLoading(false);
       })
       .then(() => {});
-  }, []);
+  }, [refresh]);
 
   return (
     <section className="strak-app-container">
@@ -121,7 +143,7 @@ export default function StrakPlayers() {
             </div>
           ) : (
             <div>
-              <form onSubmit={handleScoreInput} className={styles.form}>
+              <form onSubmit={handleSubmitScores} className={styles.form}>
                 <div className={styles.roundInfo}>
                   <label htmlFor="roundInfo">Round reference </label>
                   <input

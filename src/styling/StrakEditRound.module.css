@@ -47,3 +47,8 @@
   font-size: 0.75rem;
   color: red;
 }
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-around;
+}

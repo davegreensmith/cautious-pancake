@@ -51,6 +51,10 @@ export function updateScoresByScoreID(scoreID, body) {
   setDoc(doc(db, "scores", scoreID), body);
 }
 
+export function deleteScoresByRoundID(roundID) {
+  deleteDoc(doc(db, "scores", roundID));
+}
+
 export function fetchScoresByPlayerName(playerName) {
   return fetchScores()
     .then((scoresList) => {

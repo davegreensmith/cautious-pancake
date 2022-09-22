@@ -1,27 +1,30 @@
 import { useEffect, useState } from "react";
-import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchPlayers } from "../firebase/players";
+
 import {
+  deleteScoresByRoundID,
   fetchRoundResultsByRoundID,
   updateScoresByScoreID,
+  insertScores,
 } from "../firebase/scores";
+import {
+  fetchLeaders,
+  updateLeaderBoardWithPointsByPlayerName,
+} from "../firebase/leaderBoard";
+
 import { addPositionText } from "../utils.js/functions";
 
 import styles from "../styling/StrakEditRound.module.css";
-import { updateLeaderBoardWithPointsByPlayerName } from "../firebase/leaderBoard";
 
-export default function StrakEditRound({ editRound, setEditRound }) {
+export default function StrakEditRound({ currentRound, setCurrentRound }) {
   let roundRef = "";
   let position = 0;
 
-  for (let key in editRound.scores) {
+  for (let key in currentRound.scores) {
     if (key !== "score") {
       roundRef = key;
     }
   }
-  const roundID = editRound.roundID;
-  const roundDeets = new Array(...editRound.scores[roundRef]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [formPlayerList, setFormPlayerList] = useState([]);
@@ -30,7 +33,7 @@ export default function StrakEditRound({ editRound, setEditRound }) {
   const navigate = useNavigate();
 
   const handleBackToRounds = () => {
-    setEditRound(false);
+    setCurrentRound(false);
   };
 
   const handleNameChange = (position, newName) => {
@@ -45,78 +48,101 @@ export default function StrakEditRound({ editRound, setEditRound }) {
     setFormPlayerList(newFormList);
   };
 
-  const removeLeaderPoints = (originalRound) => {
-    const reduceLeadersArray = [];
-    originalRound.forEach((player) => {
-      const playerName = player.playerName;
-      const leaderBoardScore = player.leaderBoardScore * -1;
-      const leadersObj = { playerName, reducePoints: leaderBoardScore };
-      reduceLeadersArray.push(leadersObj);
-    });
-    reduceLeadersArray.forEach((player) => {
-      updateLeaderBoardWithPointsByPlayerName(
-        player.reducePoints,
-        player.playerName
-      );
+  const removeLeaderPoints = (roundScores) => {
+    return Promise.all([
+      roundScores.map((player) => {
+        const leaderBoardScore = +(player.leaderBoardScore * -1);
+        const playerName = player.playerName;
+        return updateLeaderBoardWithPointsByPlayerName(
+          leaderBoardScore,
+          playerName
+        );
+      }),
+    ]).then(([promises]) => {
+      return promises;
     });
   };
 
-  const newScoresAndLeaderboard = (newRound) => {
-    const numberOfPlayers = formPlayerList.length;
-    const scoresBody = [];
-    const updateLeadersArray = [];
-    newRound.forEach((player) => {
-      const scoresObj = {
-        playerName: player.playerName,
-        position: player.position,
-        score: player.score,
-        leaderBoardScore: player.leaderBoardScore,
-      };
-      const leaderBoardScoreObj = {
-        playerName: player.playerName,
-        totalPoints: player.leaderBoardScore,
-      };
-      scoresBody.push(scoresObj);
-      updateLeadersArray.push(leaderBoardScoreObj);
+  const addLeaderPoints = (updateLeadersArray) => {
+    return Promise.all([
+      updateLeadersArray.map((player) => {
+        return updateLeaderBoardWithPointsByPlayerName(
+          player.totalPoints,
+          player.playerName
+        );
+      }),
+    ]);
+  };
+
+  const buildUpdatedLeadersArray = () => {
+    const updatedLeadersArray = [];
+    return fetchLeaders().then((leadersList) => {
+      const roundID = currentRound.roundID;
+      return fetchRoundResultsByRoundID(roundID).then((roundScores) => {
+        const existingRoundInDB = roundScores.scores[roundRef];
+        existingRoundInDB.forEach((player) => {
+          const searchFor = player.playerName;
+          formPlayerList.forEach((formPlayer) => {
+            if (formPlayer.playerName === searchFor) {
+              const pointsDifference =
+                formPlayer.leaderBoardScore - player.leaderBoardScore;
+              updatedLeadersArray.push({
+                playerName: searchFor,
+                totalPoints: pointsDifference,
+              });
+            }
+          });
+        });
+        return updatedLeadersArray;
+      });
     });
-    console.log(scoresBody, "<<< scoresBody");
-    console.log(updateLeadersArray, "<<< update leaders array");
-    const addScoreBody = { [roundRef]: scoresBody };
-    console.log(addScoreBody, "<<< add score body");
-    console.log(roundID, "<<< roundID");
+  };
+
+  const newScores = (newRound) => {
+    const roundID = currentRound.roundID;
+    const addScoreBody = { [roundRef]: newRound };
     updateScoresByScoreID(roundID, addScoreBody);
-    updateLeadersArray.forEach((player) => {
-      updateLeaderBoardWithPointsByPlayerName(
-        player.totalPoints,
-        player.playerName
-      );
-    });
-    navigate("/strak/leaderboard");
   };
 
   const handleUpdateScores = (e) => {
     e.preventDefault();
-    fetchRoundResultsByRoundID(roundID).then((roundScores) => {
-      console.log(formPlayerList, "<<< formPlayer list");
-      console.log(formPlayerList, "<<< new round details");
-      // originalRound = [...roundScores]
-      console.log(roundID, "<<< round ID");
-      removeLeaderPoints(roundScores.scores[roundRef]);
-      newScoresAndLeaderboard(formPlayerList);
+    buildUpdatedLeadersArray().then((updatedLeadersArray) => {
+      return Promise.all([
+        updatedLeadersArray.map((player) => {
+          updateLeaderBoardWithPointsByPlayerName(
+            player.totalPoints,
+            player.playerName
+          );
+        }),
+      ]).then(([promises]) => {
+        newScores(formPlayerList);
+      });
+    });
+  };
+
+  const handleDeleteRound = (e) => {
+    e.preventDefault();
+
+    const roundID = currentRound.roundID;
+
+    return fetchRoundResultsByRoundID(roundID).then((roundScores) => {
+      const existingRoundInDB = roundScores.scores[roundRef];
+      return removeLeaderPoints(existingRoundInDB).then(([promises]) => {
+        deleteScoresByRoundID(roundID);
+      });
     });
   };
 
   useEffect(() => {
-    setFormPlayerList([...roundDeets]);
-    fetchPlayers().then((playersList) => {
-      // setPlayerList(playersList);
-      const players = [];
-      playersList.forEach((player) => {
-        players.push(player.playerName);
-      });
-      setPlayerNameArray(players);
-      setIsLoading(false);
+    const playersList = currentRound.scores[roundRef];
+    const players = [];
+    playersList.forEach((player) => {
+      players.push(player.playerName);
     });
+    setPlayerNameArray([...players]);
+    setIsLoading(false);
+    const copyOfOriginalRound = [...currentRound.scores[roundRef]];
+    setFormPlayerList([...playersList]);
   }, []);
 
   return (
@@ -128,60 +154,66 @@ export default function StrakEditRound({ editRound, setEditRound }) {
       ) : (
         <>
           <section>
-            <form className={styles.form}>
-              <div className={styles.roundInfo}>
-                <label htmlFor="roundInfo">Round reference </label>
-                <input
-                  type="text"
-                  id="roundInfo"
-                  value={roundRef}
-                  readOnly
-                  className={styles.roundRef}
-                ></input>
-              </div>
-              {formPlayerList.map((score, index) => {
-                position++;
-                return (
-                  <article key={index + 100} className={styles.scoreCard}>
-                    <label className={styles.positionLabel}>
-                      {addPositionText(position)}{" "}
-                    </label>
-                    <select
-                      name={score.position}
-                      id="player"
-                      className={styles.selecterBox}
-                      value={score.playerName}
-                      onChange={(e) => {
-                        handleNameChange(e.target.name, e.target.value);
-                      }}
-                    >
-                      {playerNameArray.map((player, index) => {
-                        return (
-                          <option value={player} key={index}>
-                            {player}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    <input
-                      type="number"
-                      className={styles.stablefordInput}
-                      defaultValue={score.score}
-                      name={score.position}
-                      onChange={(e) => {
-                        handleScoreChange(e.target.name, e.target.value);
-                      }}
-                    ></input>
-                  </article>
-                );
-              })}
+            <div className={styles.roundInfo}>
+              <label htmlFor="roundInfo">Round reference </label>
+              <input
+                type="text"
+                id="roundInfo"
+                value={roundRef}
+                readOnly
+                className={styles.roundRef}
+              ></input>
+            </div>
+            {formPlayerList.map((score, index) => {
+              position++;
+              return (
+                <article key={index + 100} className={styles.scoreCard}>
+                  <label className={styles.positionLabel}>
+                    {addPositionText(position)}{" "}
+                  </label>
+                  <select
+                    name={position}
+                    id="player"
+                    className={styles.selecterBox}
+                    value={score.playerName}
+                    onChange={(e) => {
+                      handleNameChange(e.target.name, e.target.value);
+                    }}
+                  >
+                    {playerNameArray.map((player, index) => {
+                      return (
+                        <option value={player} key={index}>
+                          {player}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <input
+                    type="number"
+                    className={styles.stablefordInput}
+                    defaultValue={score.score}
+                    name={position}
+                    onChange={(e) => {
+                      handleScoreChange(e.target.name, e.target.value);
+                    }}
+                  ></input>
+                </article>
+              );
+            })}
+            <div className={styles.buttonContainer}>
               <button className="strak-button" onClick={handleUpdateScores}>
                 Update scores
               </button>
               <button className="strak-button" onClick={handleBackToRounds}>
                 Back to rounds
               </button>
-            </form>
+              <button
+                className="strak-button strak-button__delete"
+                onClick={handleDeleteRound}
+              >
+                Delete Round
+              </button>
+            </div>
           </section>
         </>
       )}

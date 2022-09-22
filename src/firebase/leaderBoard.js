@@ -26,19 +26,29 @@ export function fetchLeaders() {
 }
 
 export function updateLeaderBoardWithPointsByPlayerName(points, playerName) {
+  // console.log(playerName, typeof points);
   return fetchLeaders()
     .then((leadersList) => {
-      leadersList.forEach((leaderPlayer) => {
-        if (leaderPlayer.playerName === playerName) {
-          leaderPlayer.totalPoints += points;
-          const newBody = {
-            totalPoints: leaderPlayer.totalPoints,
-            playerName: leaderPlayer.playerName,
-            playerID: leaderPlayer.playerID,
-          };
-          const leaderRef = doc(db, "leaderBoard", leaderPlayer.id);
-          return setDoc(leaderRef, newBody);
-        }
+      return Promise.all([
+        leadersList.map((leaderPlayer) => {
+          if (leaderPlayer.playerName === playerName) {
+            // console.log(
+            //   `player ${leaderPlayer.playerName} has ${leaderPlayer.totalPoints} points in the database, now adding ${points} to their score`
+            // );
+            leaderPlayer.totalPoints += points;
+            const newBody = {
+              totalPoints: leaderPlayer.totalPoints,
+              playerName: leaderPlayer.playerName,
+              playerID: leaderPlayer.playerID,
+            };
+            // console.log(newBody, "<<< update body details");
+            const leaderRef = doc(db, "leaderBoard", leaderPlayer.id);
+            return setDoc(leaderRef, newBody);
+          }
+        }),
+      ]).then(([promises]) => {
+        return promises;
+        // console.log(promises, "<<< returned promises from update leaders");
       });
     })
     .catch((err) => {
