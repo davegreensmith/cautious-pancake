@@ -40,6 +40,7 @@ export default function StrakLeaders() {
             <p className={styles.leaderCardPos}>Pos</p>
             <p className={styles.leaderCardPlyr}>Player</p>
             <p className={styles.leaderCardLBPts}>LB pts</p>
+            <p className={styles.leaderCardDiff}>Diff.</p>
           </div>
           {sortedLeadersArray.map((player) => {
             position++;
@@ -59,6 +60,10 @@ export default function StrakLeaders() {
                   }
                 )} */}
                 <p className={styles.leaderCardLBPts}>{player.totalPoints}</p>
+                <p className={styles.leaderCardDiff}>
+                  {(sortedLeadersArray[0].totalPoints - player.totalPoints) *
+                    -1}
+                </p>
               </div>
             );
           })}

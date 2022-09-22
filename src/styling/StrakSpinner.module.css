@@ -16,10 +16,11 @@
 }
 
 .container {
-  display: grid;
+  display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 350px;
+  padding: 2rem;
 }
 
 .mantis {
