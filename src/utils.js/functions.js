@@ -47,8 +47,6 @@ export const checkForDuplicateNames = (playerList) => {
   playerList.forEach((player) => {
     checkSet.add(player.playerName);
   });
-  console.log(checkSet.size, "<<< checkSet");
-  console.log(playerList.length, "<<< passed list");
   if (checkSet.size === playerList.length) {
     return false;
   }

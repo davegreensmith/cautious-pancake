@@ -17,7 +17,7 @@ export default function NavBar() {
       <Link to="/links" className={styles.navLink}>
         links
       </Link>
-      <Link to="/strak/leaderboard" className={styles.navLink}>
+      <Link to="/strak/login" className={styles.navLink}>
         golfTrack
       </Link>
     </nav>

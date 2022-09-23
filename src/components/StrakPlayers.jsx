@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { UserContext } from "../context/User";
+import { useContext } from "react";
 import StrakHeader from "./StrakHeader";
 import StrakNav from "./StrakNav";
 import { addPlayerToList, deletePlayerByDocID } from "../firebase/players";
@@ -11,6 +13,7 @@ import { createLeaderBoardEntryByPlayerName } from "../firebase/leaderBoard";
 import StrakLoadingSpinner from "./StrakLoadingSpinner";
 
 export default function StrakPlayers() {
+  const { user, setUser } = useContext(UserContext);
   const { playerList, setPlayerList, isLoading } = useGetPlayers();
   const [newName, setNewName] = useState("");
 
