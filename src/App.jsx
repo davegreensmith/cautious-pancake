@@ -19,7 +19,7 @@ import { UserContext } from "./context/User";
 
 function App() {
   const [refresh, setRefresh] = useState(false);
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(false);
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <RefreshContext.Provider value={{ refresh, setRefresh }}>

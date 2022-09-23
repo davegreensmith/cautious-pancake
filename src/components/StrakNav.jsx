@@ -31,8 +31,11 @@ export default function StrakNav() {
         Player List
       </Link>
       {user ? (
-        <p onClick={handleSignOut} className={styles.navLink}>
-          Sign out
+        <p
+          onClick={handleSignOut}
+          className={`${styles.navLink} ${styles.userButton}`}
+        >
+          {`Hi ${user.name}! Sign out`}
         </p>
       ) : (
         <>

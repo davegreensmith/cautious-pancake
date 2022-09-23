@@ -26,6 +26,10 @@
   font-size: 0.9rem;
 }
 
+.userButton {
+  width: 10rem;
+}
+
 .navLink:visited {
   color: #22577a;
 }
