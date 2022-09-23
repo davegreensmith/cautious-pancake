@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { RefreshContext } from "../context/Refresh";
+import { UserContext } from "../context/User";
 
 import {
   fetchAllPlayersAndInfo,
@@ -15,6 +16,7 @@ import styles from "../styling/StrakHistory.module.css";
 import StrakLoadingSpinner from "./StrakLoadingSpinner";
 
 export default function StrakHistory() {
+  const { user, setUser } = useContext(UserContext);
   const { refresh, setRefresh } = useContext(RefreshContext);
 
   const [displayPlayers, setDisplayPlayers] = useState(false);
@@ -81,13 +83,19 @@ export default function StrakHistory() {
                         <p className={`${styles.headingRoundScoreLabel}`}>
                           {round.roundRef}
                         </p>
-                        <button
-                          onClick={() => {
-                            handleEditRound(round.roundID);
-                          }}
-                        >
-                          Edit
-                        </button>
+                        {user ? (
+                          <>
+                            <button
+                              onClick={() => {
+                                handleEditRound(round.roundID);
+                              }}
+                            >
+                              Edit
+                            </button>
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     );
                   })}

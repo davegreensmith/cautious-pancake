@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/User";
+import { useContext } from "react";
 
 import {
   deleteScoresByRoundID,
@@ -17,6 +19,7 @@ import { addPositionText, checkForDuplicateNames } from "../utils.js/functions";
 import styles from "../styling/StrakEditRound.module.css";
 
 export default function StrakEditRound({ currentRound, setCurrentRound }) {
+  const { user, setUser } = useContext(UserContext);
   let roundRef = "";
   let position = 0;
 

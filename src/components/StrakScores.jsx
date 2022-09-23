@@ -14,9 +14,11 @@ import { updateLeaderBoardWithPointsByPlayerName } from "../firebase/leaderBoard
 import { useNavigate } from "react-router-dom";
 
 import { useContext } from "react";
+import { UserContext } from "../context/User";
 import { RefreshContext } from "../context/Refresh";
 
 export default function StrakPlayers() {
+  const { user, setUser } = useContext(UserContext);
   const { refresh, setRefresh } = useContext(RefreshContext);
 
   const [roundRef, setRoundRef] = useState(false);
@@ -124,33 +126,37 @@ export default function StrakPlayers() {
   };
 
   useEffect(() => {
-    findNextRoundRef().then((nextRoundDeets) => {
-      setRoundRef(nextRoundDeets);
-    });
-    fetchPlayers()
-      .then((playersList) => {
-        setPlayerList(playersList);
-        const players = ["-select-"];
-        playersList.forEach((player) => {
-          players.push(player.playerName);
-        });
-        setPlayerNameArray(players);
-        const playerCount = playersList.length;
-        const blankFormPlayerList = [];
-        for (let i = 0; i < playerCount; i++) {
-          const blankPlayerObject = {
-            position: i + 1,
-            playerName: "",
-            score: 0,
-          };
-          blankFormPlayerList.push(blankPlayerObject);
-        }
-        setFormPlayerList(blankFormPlayerList);
-        setNumberOfPlayers(playerCount);
-        setIsLoading(false);
-      })
-      .then(() => {});
-  }, [refresh]);
+    if (user) {
+      findNextRoundRef().then((nextRoundDeets) => {
+        setRoundRef(nextRoundDeets);
+      });
+      fetchPlayers()
+        .then((playersList) => {
+          setPlayerList(playersList);
+          const players = ["-select-"];
+          playersList.forEach((player) => {
+            players.push(player.playerName);
+          });
+          setPlayerNameArray(players);
+          const playerCount = playersList.length;
+          const blankFormPlayerList = [];
+          for (let i = 0; i < playerCount; i++) {
+            const blankPlayerObject = {
+              position: i + 1,
+              playerName: "",
+              score: 0,
+            };
+            blankFormPlayerList.push(blankPlayerObject);
+          }
+          setFormPlayerList(blankFormPlayerList);
+          setNumberOfPlayers(playerCount);
+          setIsLoading(false);
+        })
+        .then(() => {});
+    } else {
+      navigate("/strak/leaderboard", { replace: true });
+    }
+  }, [refresh, user]);
 
   return (
     <section className="strak-app-container">

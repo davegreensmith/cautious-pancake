@@ -10,6 +10,9 @@ import {
   addDoc,
   setDoc,
 } from "firebase/firestore";
+import { sortArrayByObjectElement } from "../utils.js/functions.js";
+import { fetchScoresByPlayerName } from "./scores.js";
+import { sumArrayElements } from "../utils.js/functions.js";
 
 const leadersRef = collection(db, "leaderBoard");
 
@@ -59,5 +62,21 @@ export function updateLeaderBoardWithPointsByPlayerName(points, playerName) {
 export function createLeaderBoardEntryByPlayerName(body) {
   return addDoc(leadersRef, body).catch((err) => {
     console.log(err, "<<< Error");
+  });
+}
+
+export function fetchLeaderBoardInfo() {
+  return fetchLeaders().then((leadersList) => {
+    const sortedArray = sortArrayByObjectElement(leadersList, "totalPoints");
+    const players = sortedArray.map((player) => {
+      return fetchScoresByPlayerName(player.playerName).then((roundScores) => {
+        const totalStabs = sumArrayElements(roundScores);
+        const leaderBoardInfo = { ...player, totalStabs };
+        return leaderBoardInfo;
+      });
+    });
+    return Promise.all(players).then((resolvedPromises) => {
+      return resolvedPromises;
+    });
   });
 }
