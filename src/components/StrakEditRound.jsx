@@ -12,7 +12,7 @@ import {
   updateLeaderBoardWithPointsByPlayerName,
 } from "../firebase/leaderBoard";
 
-import { addPositionText } from "../utils.js/functions";
+import { addPositionText, checkForDuplicateNames } from "../utils.js/functions";
 
 import styles from "../styling/StrakEditRound.module.css";
 
@@ -29,6 +29,7 @@ export default function StrakEditRound({ currentRound, setCurrentRound }) {
   const [isLoading, setIsLoading] = useState(true);
   const [formPlayerList, setFormPlayerList] = useState([]);
   const [playerNameArray, setPlayerNameArray] = useState([]);
+  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -39,6 +40,11 @@ export default function StrakEditRound({ currentRound, setCurrentRound }) {
   const handleNameChange = (position, newName) => {
     const newFormList = [...formPlayerList];
     newFormList[position - 1].playerName = newName;
+    if (checkForDuplicateNames(newFormList)) {
+      setError({ msg: "Duplicate names detected" });
+    } else {
+      setError(false);
+    }
     setFormPlayerList(newFormList);
   };
 
@@ -106,19 +112,23 @@ export default function StrakEditRound({ currentRound, setCurrentRound }) {
 
   const handleUpdateScores = (e) => {
     e.preventDefault();
-    buildUpdatedLeadersArray().then((updatedLeadersArray) => {
-      return Promise.all([
-        updatedLeadersArray.map((player) => {
-          updateLeaderBoardWithPointsByPlayerName(
-            player.totalPoints,
-            player.playerName
-          );
-        }),
-      ]).then(([promises]) => {
-        newScores(formPlayerList);
-        navigate("/strak/leaderboard", { replace: true });
+    if (checkForDuplicateNames(formPlayerList)) {
+      setError({ msg: "Duplicate names detected" });
+    } else {
+      buildUpdatedLeadersArray().then((updatedLeadersArray) => {
+        return Promise.all([
+          updatedLeadersArray.map((player) => {
+            return updateLeaderBoardWithPointsByPlayerName(
+              player.totalPoints,
+              player.playerName
+            );
+          }),
+        ]).then(([promises]) => {
+          newScores(formPlayerList);
+          navigate("/strak/leaderboard", { replace: true });
+        });
       });
-    });
+    }
   };
 
   const handleDeleteRound = (e) => {
@@ -202,6 +212,7 @@ export default function StrakEditRound({ currentRound, setCurrentRound }) {
                 </article>
               );
             })}
+            {error ? <p className="errorMsg">{error.msg}</p> : <></>}
             <div className={styles.buttonContainer}>
               <button className="strak-button" onClick={handleUpdateScores}>
                 Update scores
