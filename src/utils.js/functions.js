@@ -41,3 +41,16 @@ export const findTodaysDate = () => {
   const today = new Date().toLocaleDateString();
   return today;
 };
+
+export const checkForDuplicateNames = (playerList) => {
+  const checkSet = new Set();
+  playerList.forEach((player) => {
+    checkSet.add(player.playerName);
+  });
+  console.log(checkSet.size, "<<< checkSet");
+  console.log(playerList.length, "<<< passed list");
+  if (checkSet.size === playerList.length) {
+    return false;
+  }
+  return true;
+};

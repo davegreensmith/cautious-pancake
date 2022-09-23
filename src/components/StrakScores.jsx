@@ -4,7 +4,7 @@ import StrakNav from "./StrakNav";
 import StrakLoadingSpinner from "./StrakLoadingSpinner";
 
 import { useEffect } from "react";
-import { addPositionText } from "../utils.js/functions";
+import { addPositionText, checkForDuplicateNames } from "../utils.js/functions";
 
 import styles from "../styling/StrakScores.module.css";
 import { findNextRoundRef, insertScores } from "../firebase/scores";
@@ -77,6 +77,8 @@ export default function StrakPlayers() {
 
     if (error || tempError) {
       console.log("ERROR!");
+    } else if (checkForDuplicateNames(formPlayerList)) {
+      setError({ msg: "Duplicate names detected" });
     } else {
       const scoresBody = [];
       const updateLeadersArray = [];
