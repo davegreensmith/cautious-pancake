@@ -4,9 +4,9 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
-  position: sticky;
+  /* position: sticky;
   top: 5rem;
-  z-index: 999;
+  z-index: 999; */
   background-color: #c7f9cc;
 }
 
