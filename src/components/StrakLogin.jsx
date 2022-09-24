@@ -115,7 +115,7 @@ export default function StrakLogin() {
               value={loginFormDetails.password}
               onChange={handlePasswordChange}
             />
-            {error ? <p>{error.msg}</p> : <></>}
+            {error ? <p className="errorMsg">{error.msg}</p> : <></>}
             <button className="strak-button" type="submit">
               Submit
             </button>
