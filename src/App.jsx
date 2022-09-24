@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import BlogHolder from "./components/BlogHolder";
@@ -12,8 +13,10 @@ import StrakLeaderBoard from "./components/StrakLeaderboard";
 import StrakPlayers from "./components/StrakPlayers";
 import StrakScores from "./components/StrakScores";
 import StrakLogin from "./components/StrakLogin";
+import StrakPlayersManagement from "./components/StrakPlayersManagement";
+
 import "./App.css";
-import { useState } from "react";
+
 import { RefreshContext } from "./context/Refresh";
 import { UserContext } from "./context/User";
 
@@ -41,6 +44,10 @@ function App() {
                 <Route path="/strak/scores" element={<StrakScores />}></Route>
                 <Route path="/strak/history" element={<StrakHistory />}></Route>
                 <Route path="/strak/players" element={<StrakPlayers />}></Route>
+                <Route
+                  path="/strak/manage-players"
+                  element={<StrakPlayersManagement />}
+                ></Route>
                 <Route path="*" element={<GotLost />}></Route>
               </Routes>
             </div>
