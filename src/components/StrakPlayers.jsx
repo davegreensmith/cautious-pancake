@@ -84,6 +84,7 @@ export default function StrakPlayers() {
           <legend>Add a player to the list</legend>
         </fieldset>
       </form> */}
+      {user ? <button className="strak-button">Manage players</button> : <></>}
     </section>
   );
 }
