@@ -6,7 +6,7 @@ import StrakHeader from "./StrakHeader";
 import StrakNav from "./StrakNav";
 
 import { addPlayerToList, deletePlayerByDocID } from "../firebase/players";
-import { findNewPlayerID } from "../utils.js/functions";
+import { correctCapitalisation, findNewPlayerID } from "../utils.js/functions";
 
 import useGetPlayers from "../hooks/useGetPlayers";
 import { createLeaderBoardEntryByPlayerName } from "../firebase/leaderBoard";
@@ -20,9 +20,9 @@ export default function StrakPlayers() {
   const { user, setUser } = useContext(UserContext);
   const { playerList, setPlayerList, isLoading } = useGetPlayers();
   const [newName, setNewName] = useState("");
+  const [error, setError] = useState(false);
 
   function handleRemovePlayer(id) {
-    console.log(id);
     deletePlayerByDocID(id);
   }
 
@@ -32,17 +32,30 @@ export default function StrakPlayers() {
 
   function handleAddPlayer(e) {
     e.preventDefault();
-    const newID = findNewPlayerID(playerList);
-    const addNameBody = { playerID: newID, playerName: newName };
-    addPlayerToList(addNameBody);
-    const addLeaderBoardBody = { ...addNameBody, totalPoints: 0 };
-    createLeaderBoardEntryByPlayerName(addLeaderBoardBody);
+    const correctedNewName = correctCapitalisation(newName);
+    let playerExists = false;
+    playerList.forEach((player) => {
+      if (player.playerName === correctedNewName) {
+        playerExists = true;
+      }
+    });
+    if (playerExists) {
+      setError({ msg: `Player ${correctedNewName} already exists!` });
+    } else {
+      console.log(`${correctedNewName} That's a new player!`);
 
-    const updatePlayerList = [...playerList];
-    updatePlayerList.push(addNameBody);
-    setPlayerList(updatePlayerList);
+      const newID = findNewPlayerID(playerList);
+      const addNameBody = { playerID: newID, playerName: correctedNewName };
+      addPlayerToList(addNameBody);
+      const addLeaderBoardBody = { ...addNameBody, totalPoints: 0 };
+      createLeaderBoardEntryByPlayerName(addLeaderBoardBody);
 
-    setNewName("");
+      const updatePlayerList = [...playerList];
+      updatePlayerList.push(addNameBody);
+      setPlayerList(updatePlayerList);
+
+      setNewName("");
+    }
   }
 
   useEffect(() => {
@@ -92,9 +105,11 @@ export default function StrakPlayers() {
             type="text"
             value={newName}
             onChange={(e) => {
+              setError(false);
               setNewName(e.target.value);
             }}
           />
+          {error ? <p className="errorMsg">{error.msg}</p> : <></>}
           <button className="strak-button">Submit</button>
           <legend>Add a player to the list</legend>
         </fieldset>
