@@ -44,7 +44,7 @@ export default function StrakLeaders() {
       <h3 className="strak-subheader">Leader Board</h3>
 
       {sortedLeadersArray ? (
-        <article>
+        <article className={styles.leaderCardHolder}>
           <div className={styles.leaderCard}>
             <p className={styles.leaderCardPos}>Pos</p>
             <p className={styles.leaderCardPlyr}>Player</p>
