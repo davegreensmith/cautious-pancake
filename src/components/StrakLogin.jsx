@@ -53,28 +53,10 @@ export default function StrakLogin() {
           const errorCode = error.code;
           const errorMessage = error.message;
           if (errorCode === "auth/wrong-password") {
-            console.log(
-              errorCode,
-              "<<< error code",
-              errorMessage,
-              "<<< error message"
-            );
             setError({ msg: "Wrong password" });
           } else if (errorCode === "auth/user-not-found") {
-            console.log(
-              errorCode,
-              "<<< error code",
-              errorMessage,
-              "<<< error message"
-            );
             setError({ msg: "Email not found" });
           } else if (errorCode === "auth/internal-error") {
-            console.log(
-              errorCode,
-              "<<< error code",
-              errorMessage,
-              "<<< error message"
-            );
             setError({ msg: "Incorrect email and password" });
           } else {
             console.log(

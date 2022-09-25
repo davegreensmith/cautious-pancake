@@ -52,3 +52,11 @@ export const checkForDuplicateNames = (playerList) => {
   }
   return true;
 };
+
+export const correctCapitalisation = (name) => {
+  let correctedCaps = name.toLowerCase();
+  const capSortingArray = correctedCaps.split("");
+  capSortingArray[0] = capSortingArray[0].toUpperCase();
+  correctedCaps = capSortingArray.join("");
+  return correctedCaps;
+};
